@@ -24,6 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,7 +44,26 @@ public class QLSC_Controller {
 
     @RequestMapping(value = "/")
     public String index() {
-        return "index";
+        return "redirect:QLSuCo";
+    }
+
+    @RequestMapping("/BaoCao_ThongKe")
+    public String BaoCao_ThongKe(ModelMap map) {
+        List<Map<String, Object>> listSuCo = scDAO.getListSuCo();
+        map.addAttribute("listSuCo", listSuCo);
+        List<Map<String, Object>> listTenSuCo = scDAO.getDanhMuc("TenSuCo");
+        map.addAttribute("listTenSuCo", listTenSuCo);
+        List<Map<String, Object>> listLoaiSuCo = scDAO.getDanhMuc("LoaiSuCo");
+        map.addAttribute("listLoaiSuCo", listLoaiSuCo);
+        List<Map<String, Object>> listDiaDiem = scDAO.getDanhMuc("DiaDiem");
+        map.addAttribute("listDiaDiem", listDiaDiem);
+        List<Map<String, Object>> listMucDo = scDAO.getDanhMuc("MucDo");
+        map.addAttribute("listMucDo", listMucDo);
+        List<Map<String, Object>> listTinhChat = scDAO.getDanhMuc("TinhChat");
+        map.addAttribute("listTinhChat", listTinhChat);
+        List<Map<String, Object>> listGuiBC = scDAO.getDanhMuc("GuiBC");
+        map.addAttribute("listGuiBC", listGuiBC);
+        return "BaoCao_ThongKe";
     }
 
     @RequestMapping("/QLSuCo")
@@ -118,6 +138,16 @@ public class QLSC_Controller {
             @RequestParam("nguoiCN") String nguoiCN
     ) {
         return new ResponseEntity(scDAO.updateDM(loaiDM, maDM, tenDM, ngayCN, nguoiCN), HttpStatus.OK);
+    }
+
+    @PostMapping
+    @ResponseBody
+    @RequestMapping("/getDataDM")
+    public ResponseEntity getDataDM(
+            @RequestParam(required = false, name = "loaiDM") String loaiDM,
+            @RequestParam(required = false, name = "maDM") String maDM
+    ) {
+        return new ResponseEntity(scDAO.getDataDM(loaiDM, maDM), HttpStatus.OK);
     }
 
     @PostMapping
@@ -219,160 +249,172 @@ public class QLSC_Controller {
             @RequestParam("page") int page,
             @RequestParam("limit") int limit
     ) {
-        if(page > scDAO.countPage(scDAO.getListSuCo(), limit)){
+        if (page > scDAO.countPage(scDAO.getListSuCo(), limit)) {
             page = scDAO.countPage(scDAO.getListSuCo(), limit);
-        }else if(page < 0){
+        } else if (page < 0) {
             page = 0;
         }
-        int start = (page-1)*limit;
+        int start = (page - 1) * limit;
         return new ResponseEntity(scDAO.getListPage(start, limit), HttpStatus.OK);
     }
-    
+
     @PostMapping
     @ResponseBody
     @RequestMapping("getTotalPages")
     public ResponseEntity getTotalPages(
             @RequestParam("limit") int limit
-    ){
-        return new ResponseEntity(scDAO.countPage(scDAO.getListSuCo(), limit), HttpStatus.CREATED);
-    }
-    
-//    @PostMapping
-//    @ResponseBody
-//    @RequestMapping("/updateSC")
-//    public ResponseEntity updateSC(
-//            @RequestParam(required = false, name = "maSC") String maSC,
-//            @RequestParam(required = false, name = "tenSC") String tenSC,
-//            @RequestParam(required = false, name = "loaiSC") String loaiSC,
-//            @RequestParam(required = false, name = "mucDo") String mucDo,
-//            @RequestParam(required = false, name = "diaDiem") String diaDiem,
-//            @RequestParam(required = false, name = "ngay") String ngay,
-//            @RequestParam(required = false, name = "gio") String gio,
-//            @RequestParam(required = false, name = "tinhChat") String tinhChat,
-//            @RequestParam(required = false, name = "guiBC") String guiBC,
-//            @RequestParam(required = false, name = "moTa") String moTa,
-//            @RequestParam(required = false, name = "giaiPhap") String giaiPhap
-//    ) {
-//        return new ResponseEntity(scDAO.updateSC(maSC, tenSC, loaiSC, mucDo, diaDiem, ngay, gio, tinhChat, guiBC, moTa, giaiPhap), HttpStatus.OK);
-//    }
-//    @PostMapping
-//    @ResponseBody
-//    @RequestMapping("/delSuCo")
-//    public ResponseEntity delSuCo(
-//            @RequestParam("maSC") String maSC
-//    ) {
-//        return new ResponseEntity(scDAO.delSuCo(maSC), HttpStatus.OK);
-//    }
-//    @PostMapping
-//    @ResponseBody
-//    @RequestMapping("/getData")
-//    public ResponseEntity getData(
-//            @RequestParam(required = false, name = "maSC") String maSC
-//    ) {
-//        return new ResponseEntity(scDAO.getData(maSC), HttpStatus.OK);
-//    }
-//    @PostMapping
-//    @ResponseBody
-//    @RequestMapping("/getDataSC")
-//    public ResponseEntity getDataSC(
-//            @RequestParam("maSC") String maSC
-//    ) {
-//        return new ResponseEntity(scDAO.getSuCo(maSC), HttpStatus.OK);
-//    }
-//    @PostMapping
-//    @ResponseBody
-//    @RequestMapping("/getDataEditSC")
-//    public ResponseEntity getDataEditSC(
-//            @RequestParam(required = false, name = "maSC") String maSC
-//    ) {
-//        return new ResponseEntity(scDAO.getDataEditSC(maSC), HttpStatus.OK);
-//    }
-//    @PostMapping
-//    @ResponseBody
-//    @RequestMapping("/getIDSC")
-//    public ResponseEntity getIDSC() {
-//        return new ResponseEntity(scDAO.getID(), HttpStatus.OK);
-//    }
-    @PostMapping
-    @RequestMapping("/exportPDF")
-    public String generateReport(
-            HttpServletRequest request,
-            HttpServletResponse response) throws JRException, IOException,
-            NamingException {
-        String reportFileName = "reportSC";
-        Connection conn = null;
-
-        try {
-            conn = scDAO.getConnection();
-
-            HashMap<String, Object> hmParams = new HashMap<String, Object>();
-
-            hmParams.put("MA_SC", new Integer(3));
-
-//            JRProperties.setProperty("net.sf.jasperreports.engine.util.JRAbstractImageEncoder", "IDENTITY_H");
-            JasperReport jasperReport = scDAO.getCompiledFile(reportFileName, request);
-
-            scDAO.printReport("pdf", jasperReport, hmParams, conn, response, request);
-
-        } catch (SQLException sqlExp) {
-            System.out.println("Exception::" + sqlExp.toString());
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                    conn = null;
-                } catch (SQLException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-
-            }
-
-        }
-
-        return null;
-
+    ) {
+        return new ResponseEntity(scDAO.countPage(scDAO.getListSuCo(), limit), HttpStatus.OK);
     }
 
     @PostMapping
-    @RequestMapping("/exportXLS")
-    public String exportXLS(
-            HttpServletRequest request,
-            HttpServletResponse response) throws JRException, IOException,
-            NamingException {
-        String reportFileName = "reportSC";
-        Connection conn = null;
-
-        try {
-            conn = scDAO.getConnection();
-
-            HashMap<String, Object> hmParams = new HashMap<String, Object>();
-
-            hmParams.put("MA_SC", new Integer(3));
-
-//            JRProperties.setProperty("net.sf.jasperreports.engine.util.JRAbstractImageEncoder", "IDENTITY_H");
-            JasperReport jasperReport = scDAO.getCompiledFile(reportFileName, request);
-
-            scDAO.printReport("pdf", jasperReport, hmParams, conn, response, request);
-
-        } catch (SQLException sqlExp) {
-            System.out.println("Exception::" + sqlExp.toString());
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                    conn = null;
-                } catch (SQLException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+    @ResponseBody
+    @RequestMapping("PageDM")
+    public ResponseEntity PageDM(
+            @RequestParam("loaiDM") String loaiDM,
+            @RequestParam("page") int page,
+            @RequestParam("limit") int limit
+    ) {
+        switch (loaiDM) {
+            case "1": {
+                if (page > scDAO.countPage(scDAO.getDanhMuc("TenSuCo"), limit)) {
+                    page = scDAO.countPage(scDAO.getDanhMuc("TenSuCo"), limit);
+                } else if (page < 0) {
+                    page = 0;
                 }
-
+                int start = (page - 1) * limit;
+                return new ResponseEntity(scDAO.getListPageDM("TenSuCo", start, limit), HttpStatus.OK);
             }
-
+            case "2": {
+                if (page > scDAO.countPage(scDAO.getDanhMuc("LoaiSuCo"), limit)) {
+                    page = scDAO.countPage(scDAO.getDanhMuc("LoaiSuCo"), limit);
+                } else if (page < 0) {
+                    page = 0;
+                }
+                int start = (page - 1) * limit;
+                return new ResponseEntity(scDAO.getListPageDM("LoaiSuCo", start, limit), HttpStatus.OK);
+            }
+            case "3": {
+                if (page > scDAO.countPage(scDAO.getDanhMuc("MucDo"), limit)) {
+                    page = scDAO.countPage(scDAO.getDanhMuc("MucDo"), limit);
+                } else if (page < 0) {
+                    page = 0;
+                }
+                int start = (page - 1) * limit;
+                return new ResponseEntity(scDAO.getListPageDM("MucDo", start, limit), HttpStatus.OK);
+            }
+            case "4": {
+                if (page > scDAO.countPage(scDAO.getDanhMuc("DiaDiem"), limit)) {
+                    page = scDAO.countPage(scDAO.getDanhMuc("DiaDiem"), limit);
+                } else if (page < 0) {
+                    page = 0;
+                }
+                int start = (page - 1) * limit;
+                return new ResponseEntity(scDAO.getListPageDM("DiaDiem", start, limit), HttpStatus.OK);
+            }
+            case "5": {
+                if (page > scDAO.countPage(scDAO.getDanhMuc("TinhChat"), limit)) {
+                    page = scDAO.countPage(scDAO.getDanhMuc("TinhChat"), limit);
+                } else if (page < 0) {
+                    page = 0;
+                }
+                int start = (page - 1) * limit;
+                return new ResponseEntity(scDAO.getListPageDM("TinhChat", start, limit), HttpStatus.OK);
+            }
+            case "6": {
+                if (page > scDAO.countPage(scDAO.getDanhMuc("GuiBC"), limit)) {
+                    page = scDAO.countPage(scDAO.getDanhMuc("GuiBC"), limit);
+                } else if (page < 0) {
+                    page = 0;
+                }
+                int start = (page - 1) * limit;
+                return new ResponseEntity(scDAO.getListPageDM("GuiBC", start, limit), HttpStatus.OK);
+            }
+            default: {
+                if (page > scDAO.countPage(scDAO.getDanhMuc("TenSuCo"), limit)) {
+                    page = scDAO.countPage(scDAO.getDanhMuc("TenSuCo"), limit);
+                } else if (page < 0) {
+                    page = 0;
+                }
+                int start = (page - 1) * limit;
+                return new ResponseEntity(scDAO.getListPageDM("TenSuCo", start, limit), HttpStatus.OK);
+            }
         }
+    }
 
-        return null;
+    @PostMapping
+    @RequestMapping("getTotalPagesDM")
+    public ResponseEntity getTotalPagesDM(
+            @RequestParam("limit") int limit,
+            @RequestParam("loaiDM") String loaiDM
+    ) {
+        switch (loaiDM) {
+            case "1": {
+                return new ResponseEntity(scDAO.countPage(scDAO.getDanhMuc("TenSuCo"), limit), HttpStatus.OK);
+            }
+            case "2": {
+                return new ResponseEntity(scDAO.countPage(scDAO.getDanhMuc("LoaiSuCo"), limit), HttpStatus.OK);
+            }
+            case "3": {
+                return new ResponseEntity(scDAO.countPage(scDAO.getDanhMuc("MucDo"), limit), HttpStatus.OK);
+            }
+            case "4": {
+                return new ResponseEntity(scDAO.countPage(scDAO.getDanhMuc("DiaDiem"), limit), HttpStatus.OK);
+            }
+            case "5": {
+                return new ResponseEntity(scDAO.countPage(scDAO.getDanhMuc("TinhChat"), limit), HttpStatus.OK);
+            }
+            case "6": {
+                return new ResponseEntity(scDAO.countPage(scDAO.getDanhMuc("GuiBC"), limit), HttpStatus.OK);
+            }
+            default:
+                return null;
+        }
 
     }
 
+    @PostMapping
+    @ResponseBody
+    @RequestMapping("/thongke")
+    public ResponseEntity thongke(
+            @RequestParam(required = false, name = "data") String data
+    ) {
+        System.out.println(data);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping
+    @ResponseBody
+    @RequestMapping("/exportPDF/{maSC}")
+    public void exportPDF(@PathVariable("maSC") int maSC, HttpServletRequest request, HttpServletResponse response) throws JRException, IOException, NamingException, SQLException {
+        String reportFileName = "QLSuCoReport";
+        Connection conn = scDAO.getConnection();
+        HashMap<String, Object> hmParams = new HashMap<>();
+        hmParams.put("MaSuCo", maSC);
+        JasperReport scDAOReport = scDAO.getCompiledFile(reportFileName, request);
+        scDAO.printReport("pdf", scDAOReport, hmParams, conn, reportFileName, response, request);
+    }
+
+    @PostMapping
+    @ResponseBody
+    @RequestMapping("/exportXLS/{maSC}")
+    public void exportXLS(@PathVariable("maSC") int maSC, HttpServletRequest request, HttpServletResponse response) throws JRException, IOException, NamingException, SQLException {
+        String reportFileName = "QLSuCoReport";
+        Connection conn = scDAO.getConnection();
+        HashMap<String, Object> hmParams = new HashMap<>();
+        hmParams.put("MaSuCo", maSC);
+        JasperReport scDAOReport = scDAO.getCompiledFile(reportFileName, request);
+        scDAO.printReport("xls", scDAOReport, hmParams, conn, reportFileName, response, request);
+    }
+
+    @PostMapping
+    @RequestMapping("/exportRTF/{maSC}")
+    public void exportRTF(@PathVariable("maSC") int maSC, HttpServletRequest request, HttpServletResponse response) throws JRException, IOException, NamingException, SQLException {
+        String reportFileName = "QLSuCoReport";
+        Connection conn = scDAO.getConnection();
+        HashMap<String, Object> hmParams = new HashMap<>();
+        hmParams.put("MaSuCo", maSC);
+        JasperReport scDAOReport = scDAO.getCompiledFile(reportFileName, request);
+        scDAO.printReport("rtf", scDAOReport, hmParams, conn, reportFileName, response, request);
+    }
 }

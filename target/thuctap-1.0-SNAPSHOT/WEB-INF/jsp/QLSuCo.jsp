@@ -20,55 +20,35 @@
             <div class="header">
                 <div class="tab-header">
                     <div class="dropdown">
-                        <p id="btn-QLSuCo" style="background-color: chartreuse" class="btn">QUẢN LÝ SỰ CỐ</p>
+                        <p id="btn-QLSuCo" style="background-color: #0040ff; font-weight: 600; font-size: 17px;" class="btn">Quản Lý Sự Cố</p>
                     </div>
                 </div>
 
                 <div class="tab-header">
                     <div class="dropdown">
-                        <p onclick="window.location.replace('QLDanhMuc')" class="btn">QUẢN LÝ DANH MỤC</p>
+                        <p onclick="window.location.replace('QLDanhMuc')" class="btn">Quản Lý Danh Mục</p>
                     </div>
                 </div>
 
                 <div class="tab-header">
                     <div class="dropdown">
-                        <i class="btn">BÁO CÁO</i>
-                        <div class="dropdown-content">
-                            <p>Lập báo cáo ngày</p>
-                            <p>Lập báo cáo tháng</p>
-                            <p>Lập báo cáo quý</p>
-                            <p>Lập báo cáo năm</p>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="tab-header">
-                    <div class="dropdown">
-                        <i class="btn">THỐNG KÊ</i>
-                        <div class="dropdown-content">
-                            <p>Thống kê theo ngày</p>
-                            <p>Thống kê theo mức độ</p>
-                            <p>Thống kê theo loại</p
-                        </div>
+                        <p onclick="window.location.replace('BaoCao_ThongKe')" class="btn">Báo Cáo -Thống Kê</p>
                     </div>
                 </div>
 
             </div>
-
-        </div>
-        <div class="body">
-            <div class="div-form">
-                <%@include  file="../jsp/ThemSC.jsp"%>
-            </div>
-            <div class="div-table">
-                <%@include  file="../jsp/DanhSachSC.jsp"%>
+            <div class="body">
+                <div class="div-form">
+                    <%@include  file="../jsp/ThemSC.jsp"%>
+                </div>
+                <div class="div-table">
+                    <%@include  file="../jsp/DanhSachSC.jsp"%>
+                </div>
             </div>
         </div>
     </body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="resources/js/jquery.twbsPagination.min.js"></script>
     <script src="resources/js/jquery.twbsPagination.js"></script>
-    <script src="resources/js/themSC.js"></script>
-    <script src="resources/js/xoaSC.js"></script>
+    <script src="resources/js/QLSuCo.js"></script>
 </html>

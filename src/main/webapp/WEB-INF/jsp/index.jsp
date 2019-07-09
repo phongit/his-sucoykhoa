@@ -31,7 +31,7 @@
 
                 <div class="tab-header">
                     <div class="dropdown">
-                        <i class="btn">BÁO CÁO</i>
+                        <i class="btn">BÁO CÁO - THỐNG KÊ</i>
                         <div class="dropdown-content">
                             <p>Lập báo cáo ngày</p>
                             <p>Lập báo cáo tháng</p>
@@ -42,7 +42,7 @@
                 </div>
 
 
-                <div class="tab-header">
+<!--                <div class="tab-header">
                     <div class="dropdown">
                         <i class="btn">THỐNG KÊ</i>
                         <div class="dropdown-content">
@@ -51,7 +51,7 @@
                             <p>Thống kê theo loại</p
                         </div>
                     </div>
-                </div>
+                </div>-->
 
             </div>
             <div class="body"></div>

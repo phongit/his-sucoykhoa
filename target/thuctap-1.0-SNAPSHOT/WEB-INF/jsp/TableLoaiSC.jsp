@@ -20,28 +20,38 @@
         </table>
     </div>
     <div class="tb-div-scroll">
-        <%
-            List<Map<String, Object>> listLoaiSuCo = (List<Map<String, Object>>) request.getAttribute("listLoaiSuCo");
-        %>
         <table id="table-LoaiSC">
-            <% int j = 1; for (Map<String, Object> row : listLoaiSuCo) {%>
-            <tr id="tr-TenSC" >
-                <td class="stt"><%=j++%></td>
-                <td class="tdma"><%=row.get("MaDM")%></td>
-                <td class="tdten"><%=row.get("TenDM")%></td>
-                <td class="td-ngay"><%=row.get("NgayCN")%></td>
-                <td class="td-nguoi-cn"><%=row.get("NguoiCN")%></td>
-                <td class="col-id">
-                    <a class="fa fa-edit icon" style="color: darkgoldenrod; font-size: 25px;"></a>
-                </td>
-                <td class="col-id" class='td-del'>
-                    <i class="fa fa-trash-o icon" style="color: red; font-size: 25px;"></i>
-                </td>
-            </tr>
-            <%}%>
+            
         </table>
     </div>
-    <div class="page-list">
-
+    <div class="pagination">
+        <div class="timKiem">
+            <input placeholder="Tìm kiếm"/>
+        </div>
+        <div class="sohang">
+            <label>Sắp xếp: </label>
+            <select>
+                <option value="">Không</option>
+                <option value="">Mức độ</option>
+                <option value="">Địa điểm</option>
+                <option value="">Thời gian</option>
+                <option value="">Tính chất</option>
+                <option value="">Loại sự cố</option>
+            </select>
+        </div>
+        <div class="sohang">
+            <label>Số hàng: </label>
+            <select id="limit-pageLoaiDM" class="pagination-sm">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="150">150</option>
+            </select>
+        </div>
+        <div class="totalPages">
+            <ul id="pagination" class="pagination-sm"></ul>
+        </div>
     </div>
 </div>

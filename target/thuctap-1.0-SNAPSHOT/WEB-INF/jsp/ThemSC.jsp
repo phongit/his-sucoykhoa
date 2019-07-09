@@ -27,11 +27,11 @@
                         <label class="label-form">Tên sự cố</label>
                     </div>
                     <div class="div-input">
+                        <%
+                            List<Map<String, Object>> listTenSuCo = (List<Map<String, Object>>) request.getAttribute("listTenSuCo");
+                        %>
                         <select id="tenSuCo" class="input-form" required name="loaiSC">
                             <option></option>
-                            <%
-                                List<Map<String, Object>> listTenSuCo = (List<Map<String, Object>>) request.getAttribute("listTenSuCo");
-                            %>
                             <% for (Map<String, Object> row : listTenSuCo) {%>
                             <option value="<%=row.get("MaDM")%>"><%=row.get("TenDM")%></option>
                             <% }%>
@@ -173,7 +173,8 @@
             </div>
             <div class="div-button">
                 <button id="btn-ThemSC" type="button" class="btn-Them">Thêm</button>
-                <button id="btn-SuaSC" type="button" class="btn-Them">Sửa</button>
+                <button style="background-color: #ccc" id="btn-SuaSC" type="button" class="btn-Them" disabled="true">Sửa</button>
+                <button style="background-color: #ccc" id="btn-Reset" type="reset" class="btn-Them" disabled="true">Clear</button>
             </div>
         </div>
     </form>

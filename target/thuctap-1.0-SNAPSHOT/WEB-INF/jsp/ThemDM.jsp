@@ -14,7 +14,6 @@
             <div class="div-row-label">
                 <label class="label-ThemDM">Loại danh mục</label> 
             </div>
-
             <div class="div-row-input">
                 <select id="LoaiDM" class="input-ThemDM" name="loaiDM">
                     <option value="0"></option>

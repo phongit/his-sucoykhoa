@@ -33,10 +33,10 @@
 </div>
 <div class="pagination">
     <div class="timKiem">
-        <input placeholder="Tìm kiếm"/>
+<!--        <input placeholder="Tìm kiếm"/>-->
     </div>
     <div class="sohang">
-        <label>Sắp xếp: </label>
+<!--        <label>Sắp xếp: </label>
         <select>
             <option value="">Không</option>
             <option value="">Mức độ</option>
@@ -44,12 +44,11 @@
             <option value="">Thời gian</option>
             <option value="">Tính chất</option>
             <option value="">Loại sự cố</option>
-        </select>
+        </select>-->
     </div>
     <div class="sohang">
         <label>Số hàng: </label>
         <select id="limit-page" class="pagination-sm">
-            <option value="0">0</option>
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="20">20</option>
@@ -61,6 +60,4 @@
     <div class="totalPages">
         <ul id="pagination" class="pagination-sm"></ul>
     </div>
-
-
 </div>
