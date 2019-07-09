@@ -385,8 +385,11 @@ public class QLSC_Controller {
 
     @PostMapping
     @ResponseBody
-    @RequestMapping("/exportPDF/{maSC}")
-    public void exportPDF(@PathVariable("maSC") int maSC, HttpServletRequest request, HttpServletResponse response) throws JRException, IOException, NamingException, SQLException {
+    @RequestMapping("/exportPDF")
+    public void exportPDF(
+            @RequestParam("maSC") int maSC, 
+            HttpServletRequest request, 
+            HttpServletResponse response) throws JRException, IOException, NamingException, SQLException {
         String reportFileName = "QLSuCoReport";
         Connection conn = scDAO.getConnection();
         HashMap<String, Object> hmParams = new HashMap<>();

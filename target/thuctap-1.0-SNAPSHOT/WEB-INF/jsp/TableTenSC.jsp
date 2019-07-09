@@ -25,18 +25,9 @@ Author     : phongtruong
     </div>
     <div class="pagination">
         <div class="timKiem">
-            <input placeholder="Tìm kiếm"/>
         </div>
         <div class="sohang">
-            <label>Sắp xếp: </label>
-            <select>
-                <option value="">Không</option>
-                <option value="">Mức độ</option>
-                <option value="">Địa điểm</option>
-                <option value="">Thời gian</option>
-                <option value="">Tính chất</option>
-                <option value="">Loại sự cố</option>
-            </select>
+            
         </div>
         <div class="sohang">
             <label>Số hàng: </label>

@@ -25,29 +25,13 @@
     </div>
     <div class="pagination">
         <div class="timKiem">
-            <input placeholder="Tìm kiếm"/>
+            
         </div>
         <div class="sohang">
-            <label>Sắp xếp: </label>
-            <select>
-                <option value="">Không</option>
-                <option value="">Mức độ</option>
-                <option value="">Địa điểm</option>
-                <option value="">Thời gian</option>
-                <option value="">Tính chất</option>
-                <option value="">Loại sự cố</option>
-            </select>
+            
         </div>
         <div class="sohang">
-            <label>Số hàng: </label>
-            <select id="limit-pageGuiBC" class="pagination-sm">
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-                <option value="150">150</option>
-            </select>
+            
         </div>
         <div class="totalPages">
             <ul id="paginationGuiBC" class="pagination-sm"></ul>

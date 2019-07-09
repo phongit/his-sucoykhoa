@@ -97,6 +97,8 @@ function  onPageClick(event, page) {
 $(document).ready(function () {
     getIDSC();
 });
+
+
 //lấy ID Ngày Giờ h
 function getIDSC() {
     $.ajax({
@@ -250,7 +252,17 @@ function exportSuCo() {
         });
         $('#exportPDF' + maSC).click(function () {
             $('#dropdown-export' + id).css('display', 'none');
-            window.location.replace('exportPDF/' + maSC);
+            $.ajax({
+                url: "exportPDF",
+                type: 'POST',
+                dataType: 'JSON',
+                data: {
+                    maSC
+                },
+                success: function (rs) {
+                    console.log(rs);
+                }
+            });
         });
         $('#exportXLS' + maSC).click(function () {
             $('#dropdown-export' + id).css('display', 'none');
@@ -276,6 +288,18 @@ function xoaSuCo() {
 
 function capNhat() {
     $('#page tr td a').click(function () {
+        $('#btn-ThemSC').attr({
+            disabled: true
+        });
+        $('#btn-ThemSC').css('background-color', '#ccc');
+        $('#btn-SuaSC').attr({
+            disabled: false
+        });
+        $('#btn-SuaSC').css('background-color', '#eee');
+        $('#btn-Reset').attr({
+            disabled: false
+        });
+        $('#btn-Reset').css('background-color', '#eee');
         var stt = $(this).closest('tr').find('td:nth-child(1)').text();
         var maSC = $(this).closest('tr').find('td:nth-child(2)').text();
         var data = {
@@ -396,14 +420,85 @@ function updateData(maSC, stt) {
 
 $('#btn-Reset').click(function () {
     getIDSC();
+    $('#tenSuCo').val("");
+    $('#loaiSuCo').val("");
+    $('#mucDo').val("");
+    $('#diaDiem').val("");
+    $('#tinhChat').val("");
+    $('#guiBC').val("");
+    $('#moTa').val("");
+    $('#giaiPhap').val("");
     $('tr').css('background-color', '#dddddd');
     $('#btn-ThemSC').attr({
-        disable: false
+        disabled: false
     });
     $('#btn-SuaSC').attr({
-        disable: true
+        disabled: true
     });
-    $('#btn-Reset').attr({
-        disable: true
-    });
+    setReset();
 });
+function setReset() {
+    $('#btn-Reset').attr({
+        disabled: true
+    });
+    $('#btn-ThemSC').css('background-color', '#eee');
+    $('#btn-SuaSC').css('background-color', '#ccc');
+    $('#btn-Reset').css('background-color', '#ccc');
+}
+
+$('#tenSuCo').on('change', function () {
+    $('#btn-Reset').attr({
+        disabled: false
+    });
+    $('#btn-Reset').css('background-color', '#eee');
+});
+
+$('#loaiSuCo').on('change', function () {
+    $('#btn-Reset').attr({
+        disabled: false
+    });
+    $('#btn-Reset').css('background-color', '#eee');
+});
+
+$('#mucDo').on('change', function () {
+    $('#btn-Reset').attr({
+        disabled: false
+    });
+    $('#btn-Reset').css('background-color', '#eee');
+});
+
+$('#diaDiem').on('change', function () {
+    $('#btn-Reset').attr({
+        disabled: false
+    });
+    $('#btn-Reset').css('background-color', '#eee');
+});
+
+$('#tinhChat').on('change', function () {
+    $('#btn-Reset').attr({
+        disabled: false
+    });
+    $('#btn-Reset').css('background-color', '#eee');
+});
+
+$('#guiBC').on('change', function () {
+    $('#btn-Reset').attr({
+        disabled: false
+    });
+    $('#btn-Reset').css('background-color', '#eee');
+});
+
+$('#moTa').on('change', function () {
+    $('#btn-Reset').attr({
+        disabled: false
+    });
+    $('#btn-Reset').css('background-color', '#eee');
+});
+
+$('#giaiPhap').on('change', function () {
+    $('#btn-Reset').attr({
+        disabled: false
+    });
+    $('#btn-Reset').css('background-color', '#eee');
+});
+

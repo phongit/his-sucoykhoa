@@ -420,21 +420,9 @@ public class qlscDAO {
         return jasperReport;
     }
 
-//    public void generateReportPDF(HttpServletResponse resp, Map parameters, JasperReport jasperReport, Connection conn) throws JRException, NamingException, SQLException, IOException {
-//        byte[] bytes = null;
-//        bytes = JasperRunManager.runReportToPdf(jasperReport, parameters, conn);
-//        resp.reset();
-//        resp.resetBuffer();
-//        resp.setContentType("application/pdf");
-//        resp.setHeader("Content-Disposition", "attachment; filename=QLSC;");
-//        resp.setContentLength(bytes.length);
-//        ServletOutputStream ouputStream = resp.getOutputStream();
-//        ouputStream.write(bytes, 0, bytes.length);
-//        ouputStream.flush();
-//        ouputStream.close();
-//    }
     public void printReport(String exportTypes, JasperReport jasperReport, HashMap<String, Object> hmParams, Connection conn, String reportFileName, HttpServletResponse response, HttpServletRequest request) throws JRException, IOException {
         JasperPrint print = JasperFillManager.fillReport(jasperReport, hmParams, conn);
+        System.out.println(hmParams);
         switch (exportTypes) {
             case "pdf":
                 response.setContentType("application/" + exportTypes);
